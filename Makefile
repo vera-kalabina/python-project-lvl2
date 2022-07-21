@@ -11,4 +11,4 @@ package-install:
 		python3 -m pip install --user --force-reinstall dist/*.whl
 
 lint:
-		poerty run flake8 gendiff
+		poetry run flake8 gendiff

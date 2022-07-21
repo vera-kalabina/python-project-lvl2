@@ -11,7 +11,7 @@ def main():
         parser.first_file,
         parser.second_file
     )
-    print (difference)
+    print(difference)
 
 
 if __name__ == '__main__':
