@@ -1,5 +1,5 @@
 from gendiff.main_logic.opener import open_
-from gendiff.formatters.stylish import stringify
+from gendiff.formatters.formats import format_diff
 
 
 def get_diff(data1, data2):
@@ -25,7 +25,8 @@ def get_diff(data1, data2):
     return result
 
 
-def generate_diff(filepath1, filepath2):
+def generate_diff(filepath1, filepath2, formatter='stylish'):
     file1 = open_(filepath1)
     file2 = open_(filepath2)
-    return stringify(get_diff(file1, file2))
+    diff = get_diff(file1, file2)
+    return format_diff(diff, formatter)
