@@ -14,8 +14,8 @@ def get_right_result(path_to_file):
     return result
 
 
-@pytest.mark.parametrize('file1, file2, stylish, result', [
+@pytest.mark.parametrize('file1, file2, format_name, result', [
     (JSON1, JSON2, STYLISH, RESULT_STYLISH_FLAT)
 ])
-def test_gendiff(file1, file2, format_name, answer):
-    assert generate_diff(file1, file2, format_name) == get_right_result(answer)
+def test_gendiff(file1, file2, format_name, result):
+    assert generate_diff(file1, file2, format_name) == get_right_result(result)

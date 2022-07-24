@@ -9,7 +9,7 @@ def format_stylish(value, replacer=' ', spaces_count=1):
         depth_size = depth + spaces_count
         lines = []
         for key, val in current_value.items():
-            replacer = f' {key[0]} '
+            replacer = f'  {key[0]} '
             deep_indent = replacer * depth_size
             current_indent = replacer * depth
             lines.append(f'{deep_indent}{key[1]}: {iter_(val, depth_size)}')
