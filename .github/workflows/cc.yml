@@ -44,4 +44,4 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: |
-          ./cc-test-reporter after-build -r f9b6902d9f1204d8b2332bc6f3b3c4cedf1764ecbe3b00723181bd9ef94cf482                 
+          ./cc-test-reporter after-build -r "$CC_TEST_REPORTER_ID"
