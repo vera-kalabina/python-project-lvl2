@@ -9,3 +9,6 @@
 
 Compare two flat JSON files: stylish format
 <a href="https://asciinema.org/a/510027" target="_blank"><img src="https://asciinema.org/a/510027.svg" /></a>
+
+Compare two flat YAML files: stylish format
+<a href="https://asciinema.org/a/510790" target="_blank"><img src="https://asciinema.org/a/510790.svg" /></a>

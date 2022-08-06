@@ -1,18 +1,47 @@
-import itertools
 from gendiff.formatters.edit_names import edit_names
 
 
-def format_stylish(value, replacer=' ', spaces_count=1):
-    def iter_(current_value, depth):
-        if not isinstance(current_value, dict):
-            return str(current_value)
-        depth_size = depth + spaces_count
-        lines = []
-        for key, val in current_value.items():
-            replacer = f'  {key[0]} '
-            deep_indent = replacer * depth_size
-            current_indent = replacer * depth
-            lines.append(f'{deep_indent}{key[1]}: {iter_(val, depth_size)}')
-        result = itertools.chain("{", lines, [current_indent + "}"])
-        return edit_names('\n'.join(result))
-    return iter_(value, 0)
+INDENT = '    '
+STATUS = {
+    'added': '  + ',
+    'removed': '  - ',
+    'not changed': '    ',
+    'nested': '    '
+}
+
+
+def format(difference):
+    result = {}
+    if not isinstance(difference, dict):
+        return str(difference)
+    for head, value in difference.items():
+        status, key = head
+        if status == 'nested':
+            result[STATUS[status] + key] = format(value)
+        else:
+            result[STATUS[status] + key] = convert_value(value)
+    return result
+
+
+def convert_value(value_):
+    if not isinstance(value_, dict):
+        return value_
+    result = {}
+    for key, value in value_.items():
+        new_key = '    {}'.format(key)
+        result[new_key] = convert_value(value)
+    return result
+
+
+def to_string(data, lvl=0):
+    result = "{\n"
+    for key, value in data.items():
+        if isinstance(value, dict):
+            value = to_string(value, lvl + 1)
+        result += f'{INDENT * lvl}{key}: {value}\n'
+    result += f'{INDENT * lvl}}}'
+    return result
+
+
+def format_stylish(data):
+    return edit_names(to_string(format(data)))

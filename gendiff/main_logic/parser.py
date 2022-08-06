@@ -2,7 +2,7 @@ import json
 import yaml
 
 
-def open_(file):
+def parse(file):
     if file.endswith('.json'):
         data = json.load(open(file))
         return data
