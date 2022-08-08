@@ -18,6 +18,9 @@ def format(difference):
         status, key = head
         if status == 'nested':
             result[STATUS[status] + key] = format(value)
+        elif status == 'changed':
+            result[STATUS['removed'] + key] = convert_value(value[0])
+            result[STATUS['added'] + key] = convert_value(value[1])
         else:
             result[STATUS[status] + key] = convert_value(value)
     return result

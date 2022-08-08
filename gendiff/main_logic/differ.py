@@ -21,10 +21,8 @@ def get_diff(data1, data2):
             status = 'nested'
             result[(status, key)] = get_diff(value1, value2)
         else:
-            status1 = 'removed'
-            result[(status1, key)] = value1
-            status2 = 'added'
-            result[(status2, key)] = value2
+            status = 'changed'
+            result[(status, key)] = [value1, value2]
     return result
 
 

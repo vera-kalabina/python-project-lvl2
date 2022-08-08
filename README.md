@@ -12,3 +12,6 @@ Compare two flat JSON files: stylish format
 
 Compare two flat YAML files: stylish format
 <a href="https://asciinema.org/a/510790" target="_blank"><img src="https://asciinema.org/a/510790.svg" /></a>
+
+Compare two nested JSON files: stylish format
+<a href="https://asciinema.org/a/513433" target="_blank"><img src="https://asciinema.org/a/513433.svg" /></a>
