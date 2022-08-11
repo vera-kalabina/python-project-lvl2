@@ -9,7 +9,8 @@ def main():
     parser = parse()
     difference = generate_diff(
         parser.first_file,
-        parser.second_file
+        parser.second_file,
+        parser.format
     )
     print(difference)
 
