@@ -12,6 +12,7 @@ JSON2_NESTED = 'tests/fixtures/file2_nested.json'
 RESULT_STYLISH_FLAT = 'tests/fixtures/result_stylish_flat'
 RESULT_STYLISH_NESTED = 'tests/fixtures/result_stylish_nested'
 RESULT_PLAIN_NESTED = 'tests/fixtures/result_plain_nested'
+RESULT_JSON_NESTED = 'tests/fixtures/result_json_nested'
 
 
 
