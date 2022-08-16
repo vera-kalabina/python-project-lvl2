@@ -13,6 +13,8 @@ RESULT_STYLISH_FLAT = 'tests/fixtures/result_stylish_flat'
 RESULT_STYLISH_NESTED = 'tests/fixtures/result_stylish_nested'
 RESULT_PLAIN_NESTED = 'tests/fixtures/result_plain_nested'
 RESULT_JSON_NESTED = 'tests/fixtures/result_json_nested'
+RESULT_PLAIN_FLAT = 'tests/fixtures/result_plain_flat'
+RESULT_JSON_FLAT = 'tests/fixtures/result_json_flat'
 
 
 
@@ -27,7 +29,9 @@ def get_right_result(path_to_file):
     (YAML1, YML2, STYLISH, RESULT_STYLISH_FLAT),
     (JSON1_NESTED, JSON2_NESTED, STYLISH, RESULT_STYLISH_NESTED),
     (JSON1_NESTED, JSON2_NESTED, PLAIN, RESULT_PLAIN_NESTED),
-    (JSON1_NESTED, JSON2_NESTED, JSON, RESULT_JSON_NESTED)
+    (JSON1_NESTED, JSON2_NESTED, JSON, RESULT_JSON_NESTED),
+    (YAML1, YML2, PLAIN, RESULT_PLAIN_FLAT),
+    (JSON1, JSON2, JSON, RESULT_JSON_FLAT)
 ])
 def test_gendiff(file1, file2, format_name, result):
     assert generate_diff(file1, file2, format_name) == get_right_result(result)
