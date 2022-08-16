@@ -27,18 +27,4 @@ Utility features:
 <a href="https://asciinema.org/a/514268" target="_blank"><img src="https://asciinema.org/a/514268.svg" /></a>
 
 ## Compare two nested JSON files: json format
-<a href="https://asciinema.org/a/515155" target="_blank"><img src="https://asciinema.org/a/515155.svg" /></a>
-
-
-# Welcome to the Brain games! This program represents five mathematic console games.
-
-The minimum requirements by this program is the python3 and pip are installed on your operating system.
-
-For the Brain games installation run command: 'make package-install'.
-
-For playing the selected game type one of the commands on command line:
- - 'brain-even' - play to guess if number is even
- - 'brain-calc' - play to calculate simple arithmetic operations
- - 'brain-gcd' - play to find greatest common divisor
- - 'brain-progression' - play to find missing element of arithmetic progression
- - 'brain-prime' - play to definite if offered number is prime   
+<a href="https://asciinema.org/a/515155" target="_blank"><img src="https://asciinema.org/a/515155.svg" /></a> 
