@@ -1,50 +1,28 @@
-from gendiff.formatters.edit_names import edit_names
-
-
-INDENT = '    '
-STATUS = {
-    'added': '  + ',
-    'removed': '  - ',
-    'not changed': '    ',
-    'nested': '    '
-}
+import json
 
 
 def format(difference):
     result = {}
-    if not isinstance(difference, dict):
-        return str(difference)
     for head, value in difference.items():
         status, key = head
-        if status == 'nested':
-            result[STATUS[status] + key] = format(value)
-        elif status == 'changed':
-            result[STATUS['removed'] + key] = convert_value(value[0])
-            result[STATUS['added'] + key] = convert_value(value[1])
+        if status == 'changed':
+            result[key] = {
+                'status': status,
+                'old value': value[0],
+                'new_value': value[1]
+            }
+        elif status == 'nested':
+            result[key] = {
+                'status': status,
+                'value': format(value)
+            }
         else:
-            result[STATUS[status] + key] = convert_value(value)
-    return result
-
-
-def convert_value(value_):
-    if not isinstance(value_, dict):
-        return value_
-    result = {}
-    for key, value in value_.items():
-        new_key = '    {}'.format(key)
-        result[new_key] = convert_value(value)
-    return result
-
-
-def to_string(data, lvl=0):
-    result = "{\n"
-    for key, value in data.items():
-        if isinstance(value, dict):
-            value = to_string(value, lvl + 1)
-        result += f'{INDENT * lvl}{key}: {value}\n'
-    result += f'{INDENT * lvl}}}'
+            result[key] = {
+                'status': status,
+                'value': value
+            }
     return result
 
 
 def format_json(data):
-    return edit_names(to_string(format(data)))
+    return json.dumps(format(data), indent=2)
