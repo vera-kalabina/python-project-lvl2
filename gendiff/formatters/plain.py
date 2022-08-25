@@ -27,7 +27,7 @@ def format(difference, path=''):
 
 
 def convert_value(value_):
-    if isinstance(value_, bool) or value_ is None:
+    if isinstance(value_, bool) or value_ is None or isinstance(value_, int):
         new_value = json.dumps(value_)
         return f"{new_value}"
     elif isinstance(value_, dict):
