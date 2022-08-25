@@ -1,4 +1,4 @@
-from gendiff.main_logic.parser import parse
+from gendiff.parser import parse
 from gendiff.formatters.formats import format_diff
 
 

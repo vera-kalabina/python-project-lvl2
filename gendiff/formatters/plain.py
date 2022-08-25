@@ -1,4 +1,4 @@
-from gendiff.formatters.edit_names import edit_names
+import json
 
 
 def format(difference, path=''):
@@ -28,7 +28,8 @@ def format(difference, path=''):
 
 def convert_value(value_):
     if isinstance(value_, bool) or value_ is None:
-        return f"{value_}"
+        new_value = json.dumps(value_)
+        return f"{new_value}"
     elif isinstance(value_, dict):
         return '[complex value]'
     else:
@@ -40,4 +41,4 @@ def to_string(data):
 
 
 def format_plain(data):
-    return edit_names(to_string(format(data)))
+    return to_string(format(data))

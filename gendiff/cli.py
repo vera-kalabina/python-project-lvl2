@@ -1,5 +1,4 @@
 import argparse
-from gendiff.formatters.formats import JSON, STYLISH, PLAIN
 
 
 def parse():
@@ -10,8 +9,6 @@ def parse():
     parser.add_argument(
         '-f', '--format',
         help='set format of output',
-        default=STYLISH,
-        choices=[JSON, PLAIN, STYLISH]
+        default='stylish'
     )
-    args = parser.parse_args()
-    return args
+    return parser.parse_args()

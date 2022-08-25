@@ -1,37 +1,27 @@
-from gendiff.main_logic.differ import generate_diff
-from gendiff.formatters.formats import PLAIN, STYLISH, JSON
+from gendiff.differ import generate_diff
 import pytest
 
 
-JSON1 = 'tests/fixtures/file1.json'
-JSON2 = 'tests/fixtures/file2.json'
-YAML1 = 'tests/fixtures/file1.yaml'
-YML2 = 'tests/fixtures/file2.yml'
-JSON1_NESTED = 'tests/fixtures/file1_nested.json'
-JSON2_NESTED = 'tests/fixtures/file2_nested.json'
-RESULT_STYLISH_FLAT = 'tests/fixtures/result_stylish_flat'
-RESULT_STYLISH_NESTED = 'tests/fixtures/result_stylish_nested'
-RESULT_PLAIN_NESTED = 'tests/fixtures/result_plain_nested'
-RESULT_JSON_NESTED = 'tests/fixtures/result_json_nested'
-RESULT_PLAIN_FLAT = 'tests/fixtures/result_plain_flat'
-RESULT_JSON_FLAT = 'tests/fixtures/result_json_flat'
+FIXTURE_PATH = 'tests/fixtures/'
 
 
-
-def get_right_result(path_to_file):
-    file = open(path_to_file, 'r')
-    result = file.read()
-    return result
+def get_path(name):
+    return f'{FIXTURE_PATH}{name}'
 
 
 @pytest.mark.parametrize('file1, file2, format_name, result', [
-    (JSON1, JSON2, STYLISH, RESULT_STYLISH_FLAT),
-    (YAML1, YML2, STYLISH, RESULT_STYLISH_FLAT),
-    (JSON1_NESTED, JSON2_NESTED, STYLISH, RESULT_STYLISH_NESTED),
-    (JSON1_NESTED, JSON2_NESTED, PLAIN, RESULT_PLAIN_NESTED),
-    (JSON1_NESTED, JSON2_NESTED, JSON, RESULT_JSON_NESTED),
-    (YAML1, YML2, PLAIN, RESULT_PLAIN_FLAT),
-    (JSON1, JSON2, JSON, RESULT_JSON_FLAT)
+    ('file1.json', 'file2.json', 'stylish', 'result_stylish_flat'),
+    ('file1.yaml', 'file2.yml', 'stylish', 'result_stylish_flat'),
+    ('file1_nested.json', 'file2_nested.json', 'stylish', 'result_stylish_nested'),
+    ('file1_nested.json', 'file2_nested.json', 'plain', 'result_plain_nested'),
+    ('file1_nested.json', 'file2_nested.json', 'json', 'result_json_nested'),
+    ('file1.yaml', 'file2.yml', 'plain', 'result_plain_flat'),
+    ('file1.json', 'file2.json', 'json', 'result_json_flat')
 ])
 def test_gendiff(file1, file2, format_name, result):
-    assert generate_diff(file1, file2, format_name) == get_right_result(result)
+    file1_path = get_path(file1)
+    file2_path = get_path(file2)
+    result_path = get_path(result)
+    with open (result_path) as file:
+        answer = file.read()
+    assert generate_diff(file1_path, file2_path, format_name) == answer

@@ -1,4 +1,4 @@
-from gendiff.formatters.edit_names import edit_names
+import json
 
 
 INDENT = '    '
@@ -27,7 +27,9 @@ def format(difference):
 
 
 def convert_value(value_):
-    if not isinstance(value_, dict):
+    if value_ is None or isinstance(value_, bool):
+        return json.dumps(value_)
+    elif not isinstance(value_, dict):
         return value_
     result = {}
     for key, value in value_.items():
@@ -47,4 +49,4 @@ def to_string(data, lvl=0):
 
 
 def format_stylish(data):
-    return edit_names(to_string(format(data)))
+    return to_string(format(data))
