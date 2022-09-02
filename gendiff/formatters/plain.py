@@ -1,7 +1,7 @@
-import json
+from gendiff.formatters.edit_names import edit_names
 
 
-def format(difference, path=''):
+def walk(difference, path=''):
     result = []
     if not isinstance(difference, dict):
         return str(difference)
@@ -9,26 +9,26 @@ def format(difference, path=''):
         status, key = head
         key_path = path + key
         if status == 'added':
-            value = convert_value(value)
+            value = to_str(value)
             result.append(
                 f"Property '{key_path}' was added with value: {value}"
             )
         elif status == 'removed':
             result.append(f"Property '{key_path}' was removed")
         elif status == 'changed':
-            old = convert_value(value[0])
-            new = convert_value(value[1])
+            old = to_str(value[0])
+            new = to_str(value[1])
             result.append(
                 f"Property '{key_path}' was updated. From {old} to {new}"
             )
         elif status == 'nested':
-            result.extend(format(value, key_path + '.'))
+            result.extend(walk(value, key_path + '.'))
     return result
 
 
-def convert_value(value_):
+def to_str(value_):
     if isinstance(value_, bool) or value_ is None or isinstance(value_, int):
-        new_value = json.dumps(value_)
+        new_value = edit_names(value_)
         return f"{new_value}"
     elif isinstance(value_, dict):
         return '[complex value]'
@@ -36,9 +36,5 @@ def convert_value(value_):
         return f"'{value_}'"
 
 
-def to_string(data):
-    return "\n".join(data)
-
-
 def format_plain(data):
-    return to_string(format(data))
+    return "\n".join(walk(data))

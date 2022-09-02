@@ -14,6 +14,9 @@ Utility features:
 - support for different input formats: json, yaml(yml)
 - generating a report in the form of plain text, stylish, json
 
+# Installation:
+pip install git+https://github.com/vera-kalabina/python-project-lvl2.git
+
 ## Compare two flat JSON files: stylish format
 <a href="https://asciinema.org/a/510027" target="_blank"><img src="https://asciinema.org/a/510027.svg" /></a>
 

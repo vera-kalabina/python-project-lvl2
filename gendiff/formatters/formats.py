@@ -3,11 +3,11 @@ from gendiff.formatters.plain import format_plain
 from gendiff.formatters.json import format_json
 
 
-def format_diff(diff, formatter):
-    if formatter == 'stylish':
+def format_diff(diff, format_name):
+    if format_name == 'stylish':
         return format_stylish(diff)
-    elif formatter == 'plain':
+    elif format_name == 'plain':
         return format_plain(diff)
-    elif formatter == 'json':
+    elif format_name == 'json':
         return format_json(diff)
     raise Exception('Invalid format. Try "json", "plain" or "stylish" instead.')

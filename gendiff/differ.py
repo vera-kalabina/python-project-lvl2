@@ -1,8 +1,8 @@
-from gendiff.parser import parse
+from gendiff.parser import get_content, parse
 from gendiff.formatters.formats import format_diff
 
 
-def get_diff(data1, data2):
+def build_diff(data1, data2):
     result = {}
     keys = sorted(data1.keys() | data2.keys())
     for key in keys:
@@ -19,7 +19,7 @@ def get_diff(data1, data2):
             result[(status, key)] = value1
         elif isinstance(data1[key], dict) and isinstance(data2[key], dict):
             status = 'nested'
-            result[(status, key)] = get_diff(value1, value2)
+            result[(status, key)] = build_diff(value1, value2)
         else:
             status = 'changed'
             result[(status, key)] = [value1, value2]
@@ -27,7 +27,9 @@ def get_diff(data1, data2):
 
 
 def generate_diff(filepath1, filepath2, formatter='stylish'):
-    file1 = parse(filepath1)
-    file2 = parse(filepath2)
-    diff = get_diff(file1, file2)
+    file1, format1 = get_content(filepath1)
+    file2, format2 = get_content(filepath2)
+    data1 = parse(file1, format1)
+    data2 = parse(file2, format2)
+    diff = build_diff(data1, data2)
     return format_diff(diff, formatter)

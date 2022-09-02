@@ -1,12 +1,10 @@
 from gendiff.differ import generate_diff
+from tests.__init__ import FIXTURE_PATH
 import pytest
 
 
-FIXTURE_PATH = 'tests/fixtures/'
-
-
-def get_path(name):
-    return f'{FIXTURE_PATH}{name}'
+def generate_fixture(path):
+    return f'{FIXTURE_PATH}{path}'
 
 
 @pytest.mark.parametrize('file1, file2, format_name, result', [
@@ -19,9 +17,9 @@ def get_path(name):
     ('file1.json', 'file2.json', 'json', 'result_json_flat')
 ])
 def test_gendiff(file1, file2, format_name, result):
-    file1_path = get_path(file1)
-    file2_path = get_path(file2)
-    result_path = get_path(result)
+    file1_path = generate_fixture(file1)
+    file2_path = generate_fixture(file2)
+    result_path = generate_fixture(result)
     with open(result_path) as file:
-        answer = file.read()
-    assert generate_diff(file1_path, file2_path, format_name) == answer
+        expected = file.read()
+    assert generate_diff(file1_path, file2_path, format_name) == expected
