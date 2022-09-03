@@ -14,13 +14,16 @@ def format(difference):
     result = {}
     if not isinstance(difference, dict):
         return str(difference)
-    for head, value in difference.items():
-        status, key = head
+    for key, body in difference.items():
+        status = body.get('status')
+        value = body.get('value')
         if status == 'nested':
             result[STATUS[status] + key] = format(value)
         elif status == 'changed':
-            result[STATUS['removed'] + key] = convert_value(value[0])
-            result[STATUS['added'] + key] = convert_value(value[1])
+            old_value = body.get('old_value')
+            new_value = body.get('new_value')
+            result[STATUS['removed'] + key] = convert_value(old_value)
+            result[STATUS['added'] + key] = convert_value(new_value)
         else:
             result[STATUS[status] + key] = convert_value(value)
     return result

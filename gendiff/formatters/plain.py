@@ -5,8 +5,9 @@ def walk(difference, path=''):
     result = []
     if not isinstance(difference, dict):
         return str(difference)
-    for head, value in difference.items():
-        status, key = head
+    for key, body in difference.items():
+        status = body.get('status')
+        value = body.get('value')
         key_path = path + key
         if status == 'added':
             value = to_str(value)
@@ -16,8 +17,8 @@ def walk(difference, path=''):
         elif status == 'removed':
             result.append(f"Property '{key_path}' was removed")
         elif status == 'changed':
-            old = to_str(value[0])
-            new = to_str(value[1])
+            old = to_str(body.get('old_value'))
+            new = to_str(body.get('new_value'))
             result.append(
                 f"Property '{key_path}' was updated. From {old} to {new}"
             )

@@ -9,20 +9,31 @@ def build_diff(data1, data2):
         value1 = data1.get(key)
         value2 = data2.get(key)
         if key not in data1 and key in data2:
-            status = 'added'
-            result[(status, key)] = value2
+            result[key] = {
+                'status': 'added',
+                'value': value2
+            }
         elif key in data1 and key not in data2:
-            status = 'removed'
-            result[(status, key)] = value1
+            result[key] = {
+                'status': 'removed',
+                'value': value1
+            }
         elif data1[key] == data2[key]:
-            status = 'not changed'
-            result[(status, key)] = value1
+            result[key] = {
+                'status': 'not changed',
+                'value': value1
+            }
         elif isinstance(data1[key], dict) and isinstance(data2[key], dict):
-            status = 'nested'
-            result[(status, key)] = build_diff(value1, value2)
+            result[key] = {
+                'status': 'nested',
+                'value': build_diff(value1, value2)
+            }
         else:
-            status = 'changed'
-            result[(status, key)] = [value1, value2]
+            result[key] = {
+                'status': 'changed',
+                'old_value': value1,
+                'new_value': value2
+            }
     return result
 
 

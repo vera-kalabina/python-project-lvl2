@@ -16,7 +16,7 @@
       },
       "setting3": {
         "status": "changed",
-        "old value": true,
+        "old_value": true,
         "new_value": null
       },
       "setting4": {
@@ -37,7 +37,7 @@
             "value": {
               "wow": {
                 "status": "changed",
-                "old value": "",
+                "old_value": "",
                 "new_value": "so much"
               }
             }
@@ -59,7 +59,7 @@
     "value": {
       "baz": {
         "status": "changed",
-        "old value": "bas",
+        "old_value": "bas",
         "new_value": "bars"
       },
       "foo": {
@@ -68,7 +68,7 @@
       },
       "nest": {
         "status": "changed",
-        "old value": {
+        "old_value": {
           "key": "value"
         },
         "new_value": "str"
