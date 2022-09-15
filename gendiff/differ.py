@@ -1,5 +1,5 @@
-from gendiff.parser import get_content, parse
-from gendiff.formatters.formats import format_diff
+from gendiff.parser import get_content
+from gendiff.formatters.__init__ import format_diff
 
 
 def build_diff(data1, data2):
@@ -38,9 +38,7 @@ def build_diff(data1, data2):
 
 
 def generate_diff(filepath1, filepath2, formatter='stylish'):
-    file1, format1 = get_content(filepath1)
-    file2, format2 = get_content(filepath2)
-    data1 = parse(file1, format1)
-    data2 = parse(file2, format2)
+    data1 = get_content(filepath1)
+    data2 = get_content(filepath2)
     diff = build_diff(data1, data2)
     return format_diff(diff, formatter)

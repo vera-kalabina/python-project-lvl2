@@ -1,4 +1,11 @@
-from gendiff.formatters.edit_names import edit_names
+def edit_names(diff):
+    if diff is False:
+        diff = "false"
+    if diff is True:
+        diff = "true"
+    if diff is None:
+        diff = "null"
+    return diff
 
 
 def walk(difference, path=''):
