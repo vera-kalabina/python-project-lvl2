@@ -1,13 +1,3 @@
-def edit_names(diff):
-    if diff is False:
-        diff = "false"
-    if diff is True:
-        diff = "true"
-    if diff is None:
-        diff = "null"
-    return diff
-
-
 def walk(difference, path=''):
     result = []
     if not isinstance(difference, dict):
@@ -35,9 +25,12 @@ def walk(difference, path=''):
 
 
 def to_str(value_):
-    if isinstance(value_, bool) or value_ is None or isinstance(value_, int):
-        new_value = edit_names(value_)
-        return f"{new_value}"
+    if isinstance(value_, bool):
+        return f"{str(value_).lower()}"
+    elif value_ is None:
+        return "null"
+    elif isinstance(value_, int):
+        return f"{value_}"
     elif isinstance(value_, dict):
         return '[complex value]'
     else:

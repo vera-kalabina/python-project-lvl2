@@ -1,5 +1,5 @@
 from gendiff.parser import get_content
-from gendiff.formatters.__init__ import format_diff
+from gendiff.formatters import format_diff
 
 
 def build_diff(data1, data2):

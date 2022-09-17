@@ -1,9 +1,9 @@
 from gendiff.differ import generate_diff
-from tests.__init__ import FIXTURE_PATH
+from tests import FIXTURE_PATH
 import pytest
 
 
-def generate_fixture(path):
+def generate_path(path):
     return f'{FIXTURE_PATH}{path}'
 
 
@@ -17,9 +17,9 @@ def generate_fixture(path):
     ('file1.json', 'file2.json', 'json', 'result_json_flat')
 ])
 def test_gendiff(file1, file2, format_name, result):
-    file1_path = generate_fixture(file1)
-    file2_path = generate_fixture(file2)
-    result_path = generate_fixture(result)
+    file1_path = generate_path(file1)
+    file2_path = generate_path(file2)
+    result_path = generate_path(result)
     with open(result_path) as file:
         expected = file.read()
-    assert generate_diff(file1_path, file2_path, format_name) == expected
+        assert generate_diff(file1_path, file2_path, format_name) == expected

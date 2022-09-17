@@ -1,5 +1,6 @@
 import json
 import yaml
+import os
 
 
 def parse(file, format_name):
@@ -10,9 +11,12 @@ def parse(file, format_name):
 
 
 def get_content(file_path):
-    if file_path.endswith('.yml') or file_path.endswith('.yaml'):
+    split_name = os.path.splitext(file_path)
+    format_name = split_name[-1]
+    if format_name in ('.yml', '.yaml'):
         data = open(file_path)
         return parse(data.read(), 'yaml')
-    elif file_path.endswith('.json'):
+    elif format_name == '.json':
         data = open(file_path)
         return parse(data.read(), 'json')
+    raise Exception('Invalid file format. Try .json or .yaml(yml) instead.')

@@ -1,74 +1,62 @@
 INDENT = '    '
-STATUS = {
+STATUS_PREFIXES = {
     'added': '  + ',
     'removed': '  - ',
-    'not changed': '    ',
-    'nested': '    '
+    'not changed': '    '
 }
 
 
-def edit_names(diff):
-    if diff is False:
-        diff = "false"
-    if diff is True:
-        diff = "true"
-    if diff is None:
-        diff = "null"
-    return diff
-
-
-def walk(difference, lvl=0):
-    if not isinstance(difference, dict):
-        return str(difference)
+def walk(difference, depth=0):
     result = []
-    tab = INDENT * lvl
+    tab = INDENT * depth
     for key, body in difference.items():
         status = body.get('status')
         value = body.get('value')
         if status == 'nested':
-            output_key = f'{tab}{INDENT}{key}: '\
-                f'{{\n{walk(value, lvl+1)}'
+            output_key = (f'{tab}{INDENT}{key}: '
+                          f'{{\n{walk(value, depth+1)}')
             output_value = f'{tab}{INDENT}}}'
             result.extend([output_key, output_value])
         elif status == 'changed':
             old_value = body.get('old_value')
             new_value = body.get('new_value')
-            output_key = f'{tab}  - {key}: '\
-                f'{convert_value(old_value, lvl+1)}'
-            output_value = f'{tab}  + {key}: '\
-                f'{convert_value(new_value, lvl+1)}'
+            output_key = (f'{tab}{STATUS_PREFIXES["removed"]}{key}: '
+                          f'{to_str(old_value, depth+1)}')
+            output_value = (f'{tab}{STATUS_PREFIXES["added"]}{key}: '
+                            f'{to_str(new_value, depth+1)}')
             result.extend([output_key, output_value])
         else:
-            output_line = f'{tab}{STATUS[status]}{key}: '\
-                f'{convert_value(value, lvl+1)}'
+            output_line = (f'{tab}{STATUS_PREFIXES[status]}{key}: '
+                           f'{to_str(value, depth+1)}')
             result.append(output_line)
     return '\n'.join(result)
 
 
-def convert_value(value_, depth):
-    if value_ is None or isinstance(value_, bool):
-        return edit_names(value_)
-    elif isinstance(value_, dict):
-        result = ['{']
-        tab = INDENT * depth
-        end = f'{tab}}}'
-        for key, value in value_.items():
-            if isinstance(value, dict):
-                line = f'{tab}{INDENT}{key}: {convert_value(value, depth+1)}'
-                result.append(line)
-            else:
-                line = f'{tab}{INDENT}{key}: {convert_value(value, depth)}'
-                result.append(line)
-        result.extend([end])
-        return '\n'.join(result)
-    else:
+def to_str(value_, depth):
+    if value_ is None:
+        return 'null'
+    elif isinstance(value_, bool):
+        return str(value_).lower()
+    elif not isinstance(value_, dict):
         return value_
+    result = ['{']
+    tab = INDENT * depth
+    end = f'{tab}}}'
+    for key, value in value_.items():
+        if isinstance(value, dict):
+            line = f'{tab}{INDENT}{key}: {to_str(value, depth+1)}'
+            result.append(line)
+        else:
+            line = f'{tab}{INDENT}{key}: {to_str(value, depth)}'
+            result.append(line)
+    result.extend([end])
+    return '\n'.join(result)
 
 
 def format_stylish(data):
     final_output = [
         '{',
-        walk(data, lvl=0),
+        walk(data, depth=0),
         '}',
     ]
     return '\n'.join(final_output)
