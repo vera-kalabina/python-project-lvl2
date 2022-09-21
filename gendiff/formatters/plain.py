@@ -1,7 +1,5 @@
 def walk(difference, path=''):
     result = []
-    if not isinstance(difference, dict):
-        return str(difference)
     for key, body in difference.items():
         status = body.get('status')
         value = body.get('value')
@@ -21,21 +19,22 @@ def walk(difference, path=''):
             )
         elif status == 'nested':
             result.extend(walk(value, key_path + '.'))
+    if path == '':
+        return '\n'.join(result)
     return result
 
 
 def to_str(value_):
     if isinstance(value_, bool):
         return f"{str(value_).lower()}"
-    elif value_ is None:
+    if value_ is None:
         return "null"
-    elif isinstance(value_, int):
+    if isinstance(value_, int):
         return f"{value_}"
-    elif isinstance(value_, dict):
+    if isinstance(value_, dict):
         return '[complex value]'
-    else:
-        return f"'{value_}'"
+    return f"'{value_}'"
 
 
 def format_plain(data):
-    return "\n".join(walk(data))
+    return walk(data)

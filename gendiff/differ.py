@@ -5,15 +5,17 @@ from gendiff.formatters import format_diff
 def build_diff(data1, data2):
     result = {}
     keys = sorted(data1.keys() | data2.keys())
+    removed_keys = data1.keys() - data2.keys()
+    added_keys = data2.keys() - data1.keys()
     for key in keys:
         value1 = data1.get(key)
         value2 = data2.get(key)
-        if key not in data1 and key in data2:
+        if key in added_keys:
             result[key] = {
                 'status': 'added',
                 'value': value2
             }
-        elif key in data1 and key not in data2:
+        elif key in removed_keys:
             result[key] = {
                 'status': 'removed',
                 'value': value1

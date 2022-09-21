@@ -1,3 +1,6 @@
+from itertools import chain
+
+
 INDENT = '    '
 STATUS_PREFIXES = {
     'added': '  + ',
@@ -29,34 +32,32 @@ def walk(difference, depth=0):
             output_line = (f'{tab}{STATUS_PREFIXES[status]}{key}: '
                            f'{to_str(value, depth+1)}')
             result.append(output_line)
+    if depth == 0:
+        return '\n'.join(chain('{', result, '}'))
     return '\n'.join(result)
 
 
-def to_str(value_, depth):
-    if value_ is None:
+def to_str(node, depth):
+    if node is None:
         return 'null'
-    elif isinstance(value_, bool):
-        return str(value_).lower()
-    elif not isinstance(value_, dict):
-        return value_
+    if isinstance(node, bool):
+        return str(node).lower()
+    if not isinstance(node, dict):
+        return node
     result = ['{']
     tab = INDENT * depth
     end = f'{tab}}}'
-    for key, value in value_.items():
+    for key, value in node.items():
+        prefix = f"{tab}{INDENT}{key}"
         if isinstance(value, dict):
-            line = f'{tab}{INDENT}{key}: {to_str(value, depth+1)}'
+            line = f'{prefix}: {to_str(value, depth+1)}'
             result.append(line)
         else:
-            line = f'{tab}{INDENT}{key}: {to_str(value, depth)}'
+            line = f'{prefix}: {to_str(value, depth)}'
             result.append(line)
     result.extend([end])
     return '\n'.join(result)
 
 
 def format_stylish(data):
-    final_output = [
-        '{',
-        walk(data, depth=0),
-        '}',
-    ]
-    return '\n'.join(final_output)
+    return walk(data)
